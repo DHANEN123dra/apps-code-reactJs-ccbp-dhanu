@@ -1,7 +1,7 @@
 import {Component} from 'react'
-import AppItem from '../AppItem'
-import TabItem from '../TabItem'
 import './index.css'
+import TabItem from '../TabItem'
+import AppItem from '../AppItem'
 
 const tabsList = [
   {tabId: 'SOCIAL', displayText: 'Social'},
@@ -293,14 +293,13 @@ const appsList = [
 ]
 
 class AppStore extends Component {
-  state = { searchInput:'',
-  activeTabId: tabsList[0].tabId}
+  state = {searchInput: '', activeTabId: tabsList[0].tabId}
 
   updatedAppId = tabId => {
     this.setState({activeTabId: tabId})
   }
 
-  searchInputValue = event => {
+  onChangeSearchInputValue = event => {
     this.setState({searchInput: event.target.value})
   }
 
@@ -312,7 +311,7 @@ class AppStore extends Component {
     return filteredAppList
   }
 
-  searchInputResults = () => {
+  getSearchResults = () => {
     const {searchInput} = this.state
     const searchResults = appsList.filter(eachApp =>
       eachApp.appName.toLowerCase().includes(searchInput.toLowerCase()),
@@ -322,8 +321,8 @@ class AppStore extends Component {
 
   render() {
     const {activeTabId, searchInput} = this.state
-    const searchInputResults = this.searchResults()
-    const filteredApps = this.filteredAppList(searchInputResults)
+    const searchInputResults = this.getSearchResults()
+    const filteredApps = this.getFilteredAppList(searchInputResults)
 
     return (
       <div className="bg-container">
@@ -331,7 +330,7 @@ class AppStore extends Component {
         <div className="search-container">
           <input
             value={searchInput}
-            onChange={this.searchInputValue}
+            onChange={this.onChangeSearchInputValue}
             className="search-box"
             placeholder="Search"
             type="search"
